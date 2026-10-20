@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Arad AI</title>
+  <meta name="description" content="Arad AI — دستیار هوشمند برای نوشتن، کدنویسی و تحلیل." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c6cff'/%3E%3Cstop offset='1' stop-color='%2335e0c0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Cpath d='M18 47 32 16l14 31h-8l-2-5h-8l-2 5z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ═══════════ نوار کناری ═══════════ -->
+    <aside class="sidebar" id="sidebar" aria-label="گفتگوها">
+      <div class="sidebar__head">
+        <a class="brand" href="#" id="brandHome">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 19 12 5l8 14h-4.4l-1.3-2.6H9.7L8.4 19z" fill="currentColor"/></svg>
+          </span>
+          <span class="brand__name">Arad<span>AI</span></span>
+        </a>
+        <button class="icon-btn sidebar__close-btn" id="sidebarClose" aria-label="بستن منو">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <button class="new-chat" id="newChatBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span>گفتگوی جدید</span>
+        <kbd>⌘K</kbd>
+      </button>
+
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        <input type="search" id="chatSearch" placeholder="جستجو در گفتگوها" aria-label="جستجو در گفتگوها" />
+      </div>
+
+      <div class="sidebar__label">
+        <span>گفتگوها</span>
+        <button class="link-btn" id="clearAllChats" type="button">پاک کردن</button>
+      </div>
+
+      <nav class="chat-list" id="chatList" aria-label="فهرست گفتگوها"></nav>
+
+      <div class="sidebar__foot">
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر پوسته" title="تغییر پوسته">
+          <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+        </button>
+        <button class="icon-btn" id="langBtn" type="button" aria-label="تغییر زبان" title="تغییر زبان">
+          <span class="lang-label" id="langBtnLabel">FA</span>
+        </button>
+        <span class="spacer"></span>
+        <span class="sidebar__version">v2.0</span>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
+
+    <!-- ═══════════ بخش اصلی ═══════════ -->
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn topbar__menu" id="menuBtn" type="button" aria-label="نمایش منو">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+
+        <div class="topbar__title" id="chatTitle">گفتگوی جدید</div>
+
+        <div class="topbar__actions">
+          <button class="icon-btn" id="exportBtn" type="button" aria-label="خروجی گفتگو" title="خروجی گفتگو">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
+          </button>
+          <button class="icon-btn" id="importBtn" type="button" aria-label="بارگذاری گفتگو" title="بارگذاری گفتگو">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M4 3h16"/></svg>
+          </button>
+          <button class="icon-btn" id="clearChatBtn" type="button" aria-label="پاک کردن گفتگو" title="پاک کردن گفتگو">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="chat" id="chat" aria-live="polite" aria-label="پنجرهٔ گفتگو">
+        <div class="chat__inner" id="messages"></div>
+      </section>
+
+      <div class="composer-wrap">
+        <button class="scroll-bottom" id="scrollBottomBtn" type="button" hidden aria-label="رفتن به آخرین پیام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </button>
+
+        <form class="composer" id="composerForm" autocomplete="off">
+          <div class="composer__attachments" id="attachments" hidden></div>
+
+          <textarea id="input" class="composer__input" rows="1"
+                    placeholder="چطور می‌توانم کمکتان کنم؟"
+                    aria-label="متن پیام"></textarea>
+
+          <div class="composer__bar">
+            <button class="chip chip--square" id="attachBtn" type="button" aria-label="افزودن تصویر" title="افزودن تصویر">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
+            </button>
+            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
+
+            <button class="chip chip--toggle" id="thinkingBtn" type="button"
+                    aria-pressed="false" title="استدلال عمیق‌تر پیش از پاسخ">
+              <svg class="chip__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+                <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>
+                <path d="M18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>
+              </svg>
+              <span class="chip__label">Thinking</span>
+              <span class="chip__state" aria-hidden="true">OFF</span>
+            </button>
+
+            <div class="model-switch">
+              <button class="chip chip--model" id="modelBtn" type="button"
+                      aria-haspopup="listbox" aria-expanded="false" title="انتخاب مدل">
+                <span class="model-dot" id="modelDot"></span>
+                <span class="chip__label" id="modelBtnLabel">—</span>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+
+              <div class="model-menu" id="modelMenu" role="listbox" aria-label="فهرست مدل‌ها" hidden>
+                <div class="model-menu__title">انتخاب مدل</div>
+                <div class="model-menu__list" id="modelMenuList"></div>
+                <div class="model-menu__foot">مدل‌ها در <code>config.js</code> تعریف می‌شوند</div>
+              </div>
+            </div>
+
+            <span class="spacer"></span>
+
+            <span class="char-count" id="charCount" hidden></span>
+
+            <button class="send-btn" id="sendBtn" type="submit" aria-label="ارسال پیام" title="ارسال">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+            <button class="send-btn send-btn--stop" id="stopBtn" type="button" aria-label="توقف تولید" title="توقف (Esc)" hidden>
+              <svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="2.5"/></svg>
+            </button>
+          </div>
+        </form>
+
+        <p class="footnote" id="footnote">Arad AI ممکن است اشتباه کند؛ اطلاعات مهم را بررسی کنید.</p>
+      </div>
+    </main>
+  </div>
+
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+  <!-- ═══════════ پنجرهٔ تأیید ═══════════ -->
+  <div class="modal" id="confirmModal" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <h2 class="modal__title" id="confirmTitle">تأیید</h2>
+      <p class="modal__text" id="confirmText"></p>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" type="button" id="confirmCancel" data-close-modal>انصراف</button>
+        <button class="btn btn--danger" type="button" id="confirmOk">تأیید</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" accept="application/json,.json" hidden />
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
